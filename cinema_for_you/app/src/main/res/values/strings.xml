@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">cinema_for_you</string>
+    <string name="app_name" translatable="false">Cinema for you</string>
+    <string name="btn_details">details</string>
+    <string name="btn_share">share</string>
+    <string name="btn_save">save</string>
+    <string name="hint_comment">Leave some comments</string>
 </resources>

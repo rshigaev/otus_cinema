@@ -5,82 +5,60 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.rouming.cinema_for_you.databinding.ActivityMainBinding
+import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
 
-    var filmNames = listOf("Форсаж 5","Железеый человек","Маска","Росомаха","Шерлок Холмс")
+    var checkedFilm : Int = -1
+
+
+    var filmNames = listOf("Форсаж 5","Железный человек","Маска","Росомаха","Шерлок")
     var filmImages = listOf(R.drawable.ic_fast5,R.drawable.ic_ironman,R.drawable.ic_maska,R.drawable.ic_wolverine,R.drawable.ic_scherlok)
-    var filmDescriptions = listOf("Форсаж 5","Железеый человек","Маска","Росомаха","Шерлок Холмс")
-    var filmLikes = listOf(false,false,false,false,false)
-    var filmComments = listOf("","","","","")
+    var filmDescriptions = listOf("Торетто и команда планируют ограбление века. Люк Хоббс дышит им в спину. Море зрелищного экшена, погонь и драк",
+        "Попав в плен, Тони Старк изобретает суперкостюм и спасает мир. Блокбастер, запустивший киновселенную Marvel",
+        "Скромный и застенчивый служащий банка чувствует себя неуверенно с красивыми девушками и вообще рядом с людьми. Волей судьбы к нему попадает волшебная маска, и Стенли Ипкис приобретает способность превращаться в неуязвимое мультяшное существо с озорным характером.",
+        "Герой Хью Джекмана воюет с собой и врагами в Японии. Светлана Ходченкова в роли обаятельной злодейки Гадюки",
+        "События разворачиваются в наши дни. Он прошел Афганистан, остался инвалидом. По возвращении в родные края встречается с загадочным, но своеобразным гениальным человеком. Тот в поиске соседа по квартире. Лондон, 2010 год. Происходят необъяснимые убийства. Скотланд-Ярд без понятия, за что хвататься. Существует лишь один человек, который в силах разрешить проблемы и найти ответы на сложные вопросы.")
+    var filmLikes = arrayListOf<Boolean>(false,false,false,false,false)
+    var filmComments = arrayListOf<String?>("","","","","")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         init()
 
         findViewById<Button>(R.id.btn_details_0).setOnClickListener {
-            val intent = Intent(this,DetailFilmInfoActivity::class.java)
-            val reqCode = 0
-            intent.putExtra(LABEL_ID,filmNames[0])
-            intent.putExtra(IMAGE_ID,filmImages[0])
-            intent.putExtra(DESC_ID,filmDescriptions[0])
-            intent.putExtra(LIKE_ID,filmLikes[0])
-            intent.putExtra(COMMENT_ID,filmComments[0])
-            startActivityForResult(intent, reqCode)
+            startDetailedActivity(0)
+            markTouchedItem(findViewById(R.id.film0))
         }
 
         findViewById<Button>(R.id.btn_details_1).setOnClickListener {
-            val intent = Intent(this,DetailFilmInfoActivity::class.java)
-            val reqCode = 1
-            intent.putExtra(LABEL_ID,filmNames[1])
-            intent.putExtra(IMAGE_ID,filmImages[1])
-            intent.putExtra(DESC_ID,filmDescriptions[1])
-            intent.putExtra(LIKE_ID,filmLikes[1])
-            intent.putExtra(COMMENT_ID,filmComments[1])
-            startActivityForResult(intent, reqCode)
+            startDetailedActivity(1)
+            markTouchedItem(findViewById(R.id.film1))
         }
 
-        /*findViewById<Button>(R.id.btn_details_2).setOnClickListener {
-            val intent = Intent(this,DetailFilmInfoActivity::class.java)
-            val reqCode = 2
-            intent.putExtra(LABEL_ID,filmNames[2])
-            intent.putExtra(IMAGE_ID,filmImages[2])
-            intent.putExtra(DESC_ID,filmDescriptions[2])
-            intent.putExtra(LIKE_ID,filmLikes[2])
-            intent.putExtra(COMMENT_ID,filmComments[2])
-            startActivityForResult(intent, reqCode)
+        findViewById<Button>(R.id.btn_details_2).setOnClickListener {
+            startDetailedActivity(2)
+            markTouchedItem(findViewById(R.id.film2))
         }
 
         findViewById<Button>(R.id.btn_details_3).setOnClickListener {
-            val intent = Intent(this,DetailFilmInfoActivity::class.java)
-            val reqCode = 3
-            intent.putExtra(LABEL_ID,filmNames[3])
-            intent.putExtra(IMAGE_ID,filmImages[3])
-            intent.putExtra(DESC_ID,filmDescriptions[3])
-            intent.putExtra(LIKE_ID,filmLikes[3])
-            intent.putExtra(COMMENT_ID,filmComments[3])
-            startActivityForResult(intent, reqCode)
+            startDetailedActivity(3)
+            markTouchedItem(findViewById(R.id.film3))
         }
 
         findViewById<Button>(R.id.btn_details_4).setOnClickListener {
-            val intent = Intent(this,DetailFilmInfoActivity::class.java)
-            val reqCode = 4
-            intent.putExtra(LABEL_ID,filmNames[4])
-            intent.putExtra(IMAGE_ID,filmImages[4])
-            intent.putExtra(DESC_ID,filmDescriptions[4])
-            intent.putExtra(LIKE_ID,filmLikes[4])
-            intent.putExtra(COMMENT_ID,filmComments[4])
-            startActivityForResult(intent, reqCode)
-        }*/
+            startDetailedActivity(4)
+            markTouchedItem(findViewById(R.id.film4))
+        }
 
     }
 
@@ -91,16 +69,17 @@ class MainActivity : AppCompatActivity() {
             when(requestCode){
                 0,1,2,3,4 ->
                     {
-                        Log.d("custom_log", "Получили значение параметра 'Нравится' = ${recievedData?.getBooleanExtra(LIKE_ID, false)}")
-                        Log.d("custom_log", "Получили значение комментария = ${recievedData?.getStringExtra(COMMENT_ID)}")
+                        Log.d("OTUS", "Получили значение параметра 'Нравится' = ${recievedData?.getBooleanExtra(LIKE_ID, false)}")
+                        Log.d("OTUS", "Получили значение комментария = ${recievedData?.getStringExtra(COMMENT_ID)}")
+                        filmLikes[requestCode] = recievedData?.getBooleanExtra(LIKE_ID, false)!!
+                        filmComments[requestCode] = recievedData?.getStringExtra(COMMENT_ID)
+
                     }
-                else -> Log.d("custom_log", "Неопознанный requestCode $requestCode")
-
-
+                else -> Log.d("OTUS", "Неопознанный requestCode $requestCode")
 
             }
         } else {
-            Log.d("custom_log", "Неуспешный результат  $resultCode")
+            Log.d("OTUS", "Неуспешный результат  $resultCode")
         }
 
     }
@@ -120,6 +99,45 @@ class MainActivity : AppCompatActivity() {
             img4.setImageResource(filmImages[4])
 
         }
+
+    }
+
+    private fun markTouchedItem(item:ConstraintLayout){
+        with(binding){
+            film0.setBackgroundResource(R.color.white)
+            film1.setBackgroundResource(R.color.white)
+            film2.setBackgroundResource(R.color.white)
+            film3.setBackgroundResource(R.color.white)
+            film4.setBackgroundResource(R.color.white)
+
+            item.setBackgroundResource(R.color.light_grey)
+            checkedFilm = item.id
+        }
+    }
+
+    private fun startDetailedActivity(num:Int){
+        val intent = Intent(this,DetailFilmInfoActivity::class.java)
+        val reqCode = num
+        intent.putExtra(LABEL_ID,filmNames[num])
+        intent.putExtra(IMAGE_ID,filmImages[num])
+        intent.putExtra(DESC_ID,filmDescriptions[num])
+        intent.putExtra(LIKE_ID,filmLikes[num])
+        intent.putExtra(COMMENT_ID,filmComments[num])
+        startActivityForResult(intent, reqCode)
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(CHECKED_FILM,checkedFilm)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val checkedFilmId = savedInstanceState.getInt(CHECKED_FILM)
+        if(checkedFilmId !=-1){
+            markTouchedItem(findViewById(checkedFilmId))
+        }
     }
 
 
@@ -131,6 +149,8 @@ class MainActivity : AppCompatActivity() {
         const val DESC_ID= "description"
         const val LIKE_ID= "like"
         const val COMMENT_ID= "comment"
+        const val CHECKED_FILM= "checked_film"
+
 
     }
 }
