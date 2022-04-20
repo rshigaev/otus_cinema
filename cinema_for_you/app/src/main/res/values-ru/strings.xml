@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btn_details">Детали</string>
+    <string name="btn_share">Поделиться</string>
+    <string name="hint_comment">Оставьте комментарий</string>
+    <string name="btn_save">Сохранить</string>
+</resources>
