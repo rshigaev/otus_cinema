@@ -57,6 +57,6 @@ class DetailFilmInfoActivity : AppCompatActivity() {
         const val DESC_ID= "description"
         const val LIKE_ID= "like"
         const val COMMENT_ID= "comment"
-
+        const val POSITION= "position"
     }
 }

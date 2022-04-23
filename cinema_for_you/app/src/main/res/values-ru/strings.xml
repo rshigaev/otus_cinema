@@ -4,4 +4,5 @@
     <string name="btn_share">Поделиться</string>
     <string name="hint_comment">Оставьте комментарий</string>
     <string name="btn_save">Сохранить</string>
+    <string name="btn_favorites">Избранное</string>
 </resources>
