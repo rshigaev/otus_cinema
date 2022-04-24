@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:isScrollContainer="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".DetailFilmInfoActivity">
 
     <ImageView
@@ -26,11 +29,11 @@
         android:layout_marginRight="8dp"
         android:gravity="center"
         android:paddingBottom="8dp"
-        tools:text="TextView"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img" />
+        app:layout_constraintTop_toBottomOf="@+id/img"
+        tools:text="TextView" />
 
     <TextView
         android:id="@+id/tv_desc"
@@ -38,12 +41,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:inputType="textMultiLine"
-        tools:text="TextView"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/tv_label"
         app:layout_constraintStart_toStartOf="@+id/tv_label"
         app:layout_constraintTop_toBottomOf="@+id/tv_label"
-        tools:ignore="TouchTargetSizeCheck" />
+        tools:ignore="TouchTargetSizeCheck"
+        tools:text="TextView" />
 
     <CheckBox
         android:id="@+id/cb_like"
@@ -54,21 +57,22 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/like_checkbox"
         android:button="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/img"
+        app:layout_constraintTop_toTopOf="@+id/img" />
 
     <EditText
         android:id="@+id/et_comments"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        tools:text="comments"
         android:hint="@string/hint_comment"
+        android:inputType="textPersonName"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/tv_desc"
         app:layout_constraintStart_toStartOf="@+id/tv_desc"
-        app:layout_constraintTop_toBottomOf="@+id/btn_share" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_share"
+        tools:text="comments"
+        />
 
     <Button
         android:id="@+id/btn_share"

@@ -5,4 +5,6 @@
     <string name="btn_save">save</string>
     <string name="hint_comment">Leave some comments</string>
     <string name="btn_favorites">favorites</string>
+    <string name="closeDialog_title">Closing App</string>
+    <string name="closeDialog_qiestion">Are you sure?</string>
 </resources>
