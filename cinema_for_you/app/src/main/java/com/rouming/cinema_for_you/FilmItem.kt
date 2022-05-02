@@ -6,17 +6,20 @@ import android.os.Parcelable
 import androidx.annotation.RequiresApi
 
 
-data class FilmItem(val label:String, val image: Int, val desc:String, var comment:String, var index:Int, var like:Boolean = false, var isTouched:Boolean = false )
-    : Parcelable {
+data class FilmItem(
+    var label:String, var image: Int = -1, var desc:String = "", var comment:String = "",
+    var like:Boolean = false, var isTouched:Boolean = false)
+    : Film(label,  image,  desc,  comment, like,  isTouched),Parcelable {
+
+
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),
         parcel.readInt(),
         parcel.readString().toString(),
         parcel.readString().toString(),
-        parcel.readInt(),
         parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte()
-    ) {  }
+    )
 
     override fun describeContents(): Int {
         TODO("Not yet implemented")
@@ -28,7 +31,7 @@ data class FilmItem(val label:String, val image: Int, val desc:String, var comme
         parcel.writeInt(image)
         parcel.writeString(desc)
         parcel.writeString(comment)
-        parcel.writeInt(index)
+
         parcel.writeBoolean(like)
         parcel.writeBoolean(isTouched)
     }
@@ -42,4 +45,30 @@ data class FilmItem(val label:String, val image: Int, val desc:String, var comme
             return arrayOfNulls(size)
         }
     }
+}
+
+open class Film(label:String,  image: Int = -1,  desc:String = "",  comment:String = "",
+                like:Boolean = false,  isTouched:Boolean = false )
+
+class FavoriteFilm(
+    var index: Int = -1,
+    var label: String,
+    var image: Int,
+    var desc: String,
+    var comment: String,
+    var like: Boolean,
+    var isTouched: Boolean
+)
+    :Film(label,  image,  desc,  comment,like,  isTouched){
+        constructor(ind:Int, item:FilmItem) : this(
+            ind,
+            item.label,
+            item.image,
+            item.desc,
+            item.comment,
+            item.like,
+            item.isTouched
+        )
+
+
 }

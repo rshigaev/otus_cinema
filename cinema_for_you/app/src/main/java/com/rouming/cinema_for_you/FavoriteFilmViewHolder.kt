@@ -13,12 +13,16 @@ class FavoriteFilmViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) 
     private val layout: ConstraintLayout = itemView.findViewById(R.id.item_fav_layout)
 
 
+
     fun bind(item:FilmItem, listener:FilmAdapter.FilmItemListener){
         label.text = item.label
         img.setImageResource(item.image)
         label.text = item.label
 
         Log.d("OTUS", "биндим айтем   ${item}")
+    }
+
+    fun markDisliked(){
 
     }
 }

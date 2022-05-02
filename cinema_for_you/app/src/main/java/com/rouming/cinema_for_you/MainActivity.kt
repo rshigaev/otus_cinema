@@ -4,16 +4,12 @@ import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rouming.cinema_for_you.databinding.ActivityMainBinding
-import java.io.Serializable
 import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
@@ -21,8 +17,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: FilmAdapter
     private lateinit var recycler: RecyclerView
-
-    var checkedFilm : Int = -1
 
 
     var filmNames = mutableListOf("Форсаж 5","Железный человек","Маска","Росомаха","Шерлок",
@@ -85,26 +79,37 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val recievedData = data
+
         if(resultCode == RESULT_OK){
+            Log.d("OTUS" , "resultCode = ${resultCode}")
             when(requestCode){
                 777 -> {
-                    val
-                    filmList
+                    Log.d("OTUS" , "requestCode = ${requestCode}")
+                    if(data != null){
+                        val newFilmList = data.getParcelableArrayListExtra<FilmItem>(LST) as MutableList<FilmItem>
+                        filmList = newFilmList
+
+                        Log.d("OTUS" , "после возврата на мэйн список = ${filmList[1]}")
+                        val l = adapter.getList()
+
+                        init()
+
+                    }
+
                 }
                 else -> {
-                    Log.d("OTUS", "Получили значение параметра 'Нравится' = ${recievedData?.getBooleanExtra(LIKE_ID, false)}")
-                    Log.d("OTUS", "Получили значение комментария = ${recievedData?.getStringExtra(COMMENT_ID)}")
                     val position:Int = recievedData?.getIntExtra(POSITION,-1)!!
                     if(position != -1) {
                         filmList[position].like = recievedData.getBooleanExtra(LIKE_ID, false)
                         filmList[position].comment = recievedData.getStringExtra(COMMENT_ID).toString()
                     }
-                    updateRVData()
+
                 }
             }
         } else {
             Log.d("OTUS", "Неуспешный результат  $resultCode")
         }
+        updateRVData()
     }
 
     private fun init(){
@@ -113,7 +118,7 @@ class MainActivity : AppCompatActivity() {
 
             recycler = rcView
             recycler.layoutManager = if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) LinearLayoutManager(this@MainActivity) else GridLayoutManager(this@MainActivity,2)
-            adapter = FilmAdapter(filmList, object:FilmAdapter.FilmItemListener{
+            adapter = FilmAdapter(filmList,  object:FilmAdapter.FilmItemListener{
                 override fun onClickItem(item: FilmItem, position: Int) {
                     markTouchedItem(position)
                     startDetailedActivity(position)
@@ -128,11 +133,12 @@ class MainActivity : AppCompatActivity() {
                     updateRVData()
                 }
 
-                override fun onSwipeDelete(item: FilmItem, position: Int) {}
+
             })
             btnFavorites.setOnClickListener {
                 startFavoritesActivity()
             }
+            recycler.adapter = adapter
             updateRVData()
         }
     }
@@ -145,13 +151,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateRVData(){
-        recycler.adapter = adapter
         Log.d("OTUS", "проверяем изменения")
         val l = adapter.getList()
         Log.d("OTUS", "новый элемент ${l[1]}")
         Log.d("OTUS", "старый элемент ${filmList[1]}")
-        val filmDiffResult = DiffUtil.calculateDiff(FilmDiffUtils(adapter.getList() as MutableList<FilmItem>,filmList))
+        val filmDiffResult = DiffUtil.calculateDiff(FilmDiffUtils(filmList, adapter.getList()))
         filmDiffResult.dispatchUpdatesTo(adapter)
+        recycler.adapter = adapter
     }
 
     private fun startFavoritesActivity(){
@@ -190,7 +196,6 @@ class MainActivity : AppCompatActivity() {
                     filmImages[i],
                     filmDescriptions[i],
                     filmComments[i],
-                        i,
                     filmLikes[i]))
             }
     }
@@ -202,7 +207,6 @@ class MainActivity : AppCompatActivity() {
         const val DESC_ID= "description"
         const val LIKE_ID= "like"
         const val COMMENT_ID= "comment"
-        const val CHECKED_FILM= "checked_film"
         const val POSITION= "position"
         const val LST= "list"
 

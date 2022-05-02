@@ -1,16 +1,20 @@
 package com.rouming.cinema_for_you
 
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 private const val FILM_ITEM_VIEWTYPE = 1
 private const val FAVORITE_FILM_ITEM_VIEWTYPE = 2
 
-class FilmAdapter(val itemList:MutableList<FilmItem>, private val listener:FilmItemListener, private val type:String = "main"):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FilmAdapter(
+    private val itemList: MutableList<FilmItem>,
+    private val listener:FilmItemListener,
+    private val type:String = "main")
+    :RecyclerView.Adapter<RecyclerView.ViewHolder>(), ItemTouchHelperAdapter  {
 
-    val lst =  itemList
+    val lst = itemList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layout = LayoutInflater.from(parent.context)
@@ -31,29 +35,32 @@ class FilmAdapter(val itemList:MutableList<FilmItem>, private val listener:FilmI
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder) {
-            is FilmItemViewHolder -> holder.bind(lst[position], listener)
-            is FavoriteFilmViewHolder -> holder.bind(lst[position], listener)
+            is FilmItemViewHolder -> holder.bind(lst[position]  , listener)
+            is FavoriteFilmViewHolder -> holder.bind(lst[position]  , listener)
         }
     }
 
-    override fun getItemCount(): Int {
-        return when(type){
-            "main" -> lst.size
-            "favorite" -> lst.filter{it.like}.size
-            else -> lst.size
-        }
-    }
+    override fun getItemCount(): Int = lst.size
 
-    fun getList():List<FilmItem> {
-        return when(type){
-            "main" -> lst
-            "favorite" -> lst.filter{it.like}
-            else -> lst
-        }
-    }
+    fun getList() = lst
+
     interface FilmItemListener{
         fun onClickItem(item:FilmItem,  position: Int)
         fun onClickCheckBoxItem(item:FilmItem,  position: Int)
-        fun onSwipeDelete(item:FilmItem,  position: Int)
+
     }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int) {
+        Log.d("OTUS","onItemMove")
+    }
+
+    override fun onItemDismiss(position: Int) {
+        Log.d("OTUS","onItemDismiss")
+        Log.d("OTUS","было ${lst[position].like}")
+        lst[position].like = false
+        Log.d("OTUS","стало ${lst[position].like}")
+
+    }
+
+
 }
