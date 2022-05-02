@@ -10,15 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cinema_for_you">
         <activity
+            android:name=".FavoriteFilmsActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailFilmInfoActivity"
             android:exported="false">
             <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="text/plain"/>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:exported="true">

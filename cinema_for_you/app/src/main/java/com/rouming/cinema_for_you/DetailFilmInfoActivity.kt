@@ -22,10 +22,10 @@ class DetailFilmInfoActivity : AppCompatActivity() {
         if(intent.getIntExtra(IMAGE_ID,-1)!= -1) img.setImageResource(intent.getIntExtra(IMAGE_ID,-1))
         label.text = intent.getStringExtra(LABEL_ID)
         desc.text = intent.getStringExtra(DESC_ID)
+        checkBox.isSelected = intent.getBooleanExtra(LIKE_ID, false)
 
-        checkBox.setOnCheckedChangeListener { button, _ ->
-            if(button.isChecked) checkBox.setBackgroundResource(R.drawable.ic_cb__like_checked) else checkBox.setBackgroundResource(R.drawable.ic_cb_like)
-            Log.d("OTUS", "Значение чекбокса ${checkBox.isChecked}")
+        checkBox.setOnClickListener {
+            checkBox.isSelected = !checkBox.isSelected
         }
 
         shareButton.setOnClickListener {
@@ -57,6 +57,6 @@ class DetailFilmInfoActivity : AppCompatActivity() {
         const val DESC_ID= "description"
         const val LIKE_ID= "like"
         const val COMMENT_ID= "comment"
-
+        const val POSITION= "position"
     }
 }
