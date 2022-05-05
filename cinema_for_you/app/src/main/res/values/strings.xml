@@ -4,7 +4,11 @@
     <string name="btn_share">share</string>
     <string name="btn_save">save</string>
     <string name="hint_comment">Leave some comments</string>
-    <string name="btn_favorites">favorites</string>
+    <string name="fragment_favorites">favorites</string>
     <string name="closeDialog_title">Closing App</string>
     <string name="closeDialog_qiestion">Are you sure?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="fragment_films">Films</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
