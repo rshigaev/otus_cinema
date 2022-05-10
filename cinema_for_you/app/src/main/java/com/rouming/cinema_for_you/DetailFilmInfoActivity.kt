@@ -22,30 +22,27 @@ class DetailFilmInfoActivity : AppCompatActivity() {
         if(intent.getIntExtra(IMAGE_ID,-1)!= -1) img.setImageResource(intent.getIntExtra(IMAGE_ID,-1))
         label.text = intent.getStringExtra(LABEL_ID)
         desc.text = intent.getStringExtra(DESC_ID)
-        checkBox.isSelected = intent.getBooleanExtra(LIKE_ID, false)
+        val liked = intent.getBooleanExtra(LIKE_ID, false)
+        checkBox.isChecked = liked
 
-        checkBox.setOnClickListener {
-            checkBox.isSelected = !checkBox.isSelected
-        }
+        //checkBox.setOnCheckedChangeListener { button, isChecked ->  checkBox.isChecked =  }
 
         shareButton.setOnClickListener {
             val shareIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, "Поглали в кино на фильм ${label.text}!")
+                putExtra(Intent.EXTRA_TEXT, "Погнали в кино на фильм ${label.text}!")
                 type = "text/plain"
             }
             startActivity(Intent.createChooser(shareIntent, null))
         }
 
         saveButton.setOnClickListener {
-
-
             intent.putExtra(LIKE_ID,checkBox.isChecked)
+            Log.d("OTUS" , "впихиваем в интент лайк =  ${checkBox.isChecked}")
             intent.putExtra(COMMENT_ID,findViewById<EditText>(R.id.et_comments).text.toString())
             setResult(RESULT_OK, intent)
             finish()
         }
-
     }
 
 
