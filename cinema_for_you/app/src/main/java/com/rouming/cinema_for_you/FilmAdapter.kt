@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import kotlin.collections.ArrayList
 
 private const val FILM_ITEM_VIEWTYPE = 1
 private const val FAVORITE_FILM_ITEM_VIEWTYPE = 2
@@ -17,18 +16,14 @@ class FilmAdapter(
 
     var lst = arrayListOf<FilmItem>()
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layout = LayoutInflater.from(parent.context)
-
         return when (viewType){
             FILM_ITEM_VIEWTYPE -> FilmItemViewHolder(layout.inflate(R.layout.item_film,parent, false))
             FAVORITE_FILM_ITEM_VIEWTYPE -> FavoriteFilmViewHolder(layout.inflate(R.layout.item_favorite_film,parent, false))
             else -> FilmItemViewHolder(layout.inflate(R.layout.item_film,parent, false))
         }
     }
-
-
 
     override fun getItemViewType(position: Int): Int {
         return when(type){
@@ -56,10 +51,8 @@ class FilmAdapter(
     }
 
     fun updateItem(updatedLst: ArrayList<FilmItem>) {
-
         val diffCallback = FilmDiffUtils(getList(), updatedLst)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-
         setData(updatedLst)
         diffResult.dispatchUpdatesTo(this)
     }
