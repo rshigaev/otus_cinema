@@ -13,11 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rouming.cinema_for_you.databinding.ActivityFavoriteFilmsBinding
 
-
 class FavoriteFilmsFragment : Fragment() {
 
-
-    private lateinit var filmList : MutableList<FilmItem>
+    private lateinit var filmList : ArrayList<FilmItem>
     private lateinit var adapter: FilmAdapter
     private lateinit var recycler: RecyclerView
 
@@ -25,7 +23,6 @@ class FavoriteFilmsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_favorite_films, container, false)
     }
 
@@ -36,39 +33,37 @@ class FavoriteFilmsFragment : Fragment() {
 
     private fun init(){
 
-            filmList = arguments?.getParcelableArrayList(LST) ?: error("no filmList")
-
-            Log.d("OTUS", "${filmList.filter{it.like}}")
-            recycler = view?.findViewById(R.id.favorite_rcView)!!
-            recycler.layoutManager = LinearLayoutManager(requireContext())
-            adapter = FilmAdapter(filmList.filter{it.like} as MutableList<FilmItem>, object:FilmAdapter.FilmItemListener{
-                override fun onClickItem(item: FilmItem, position: Int) {}
-
-                override fun onClickCheckBoxItem(item: FilmItem, position: Int) {}
-            },
+        filmList = arguments?.getParcelableArrayList(LST) ?: error("no filmList")
+        recycler = view?.findViewById(R.id.favorite_rcView)!!
+        recycler.layoutManager = LinearLayoutManager(requireContext())
+        adapter = FilmAdapter(object:FilmAdapter.FilmItemListener{
+            override fun onClickItem(item: FilmItem, position: Int) {}
+            override fun onClickCheckBoxItem(item: FilmItem, isChecked: Boolean) {} },
                 "favorite")
 
-            val callback: ItemTouchHelper.Callback = SimpleItemTouchHelperCallback(adapter)
-            val touchHelper = ItemTouchHelper(callback)
-            touchHelper.attachToRecyclerView(recycler)
-
-            updateRVData()
-
-    }
-
-    fun updateRVData(){
+        var myTouchHelper = ItemTouchHelper(
+                object : ItemTouchHelper.SimpleCallback(
+                        ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+                        ItemTouchHelper.LEFT
+                ) {
+                    override fun onMove(
+                            recyclerView: RecyclerView,
+                            viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
+                    ): Boolean {
+                        return false // true if moved, false otherwise
+                    }
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                        val currentPosition = viewHolder.getAdapterPosition()
+                        filmList.filter{it.like}[currentPosition].like = false
+                        adapter.updateItem(filmList.filter{it.like} as ArrayList<FilmItem>)
+                    }
+                })
+        myTouchHelper.attachToRecyclerView(recycler)
+        adapter.setData(filmList.filter{it.like} as ArrayList<FilmItem>)
         recycler.adapter = adapter
-        Log.d("OTUS","получили гетлист${adapter.getList() }}")
-        Log.d("OTUS","и текущий список фильмов ${filmList.filter{it.like}}")
-        val filmDiffResult = DiffUtil.calculateDiff(FilmDiffUtils( filmList.filter{it.like} as MutableList<FilmItem>, adapter.getList()))
-        filmDiffResult.dispatchUpdatesTo(adapter)
     }
-
 
     companion object{
-
         const val LST= "list"
-
     }
-
 }

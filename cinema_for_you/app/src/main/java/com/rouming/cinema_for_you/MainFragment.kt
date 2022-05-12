@@ -2,6 +2,7 @@ package com.rouming.cinema_for_you
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,20 +14,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-
 class MainFragment : Fragment() {
 
     lateinit var recycler:RecyclerView
     lateinit var adapter:FilmAdapter
-    lateinit var filmList:MutableList<FilmItem>
-
+    lateinit var filmList:ArrayList<FilmItem>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,32 +32,38 @@ class MainFragment : Fragment() {
         init()
     }
 
-
     private fun init(){
         Log.d("OTUS", "init")
              filmList = arguments?.getParcelableArrayList(LST) ?: error("no filmList")
              recycler = view?.findViewById<RecyclerView>(R.id.rcView)!!
-             recycler.layoutManager = if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) LinearLayoutManager(requireContext()) else GridLayoutManager(requireContext(),2)
-             adapter = FilmAdapter(filmList,  object:FilmAdapter.FilmItemListener{
+             recycler.layoutManager = if(resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) LinearLayoutManager(requireContext()) else GridLayoutManager(requireContext(),2)
+             adapter = FilmAdapter( object:FilmAdapter.FilmItemListener{
                  override fun onClickItem(item: FilmItem, position: Int) {
                      markTouchedItem(position)
-                     //startDetailedActivity(position)
-                     updateRVData()
+                     val fragment = DetailedFilmInfoFragment()
+                     val arguments = Bundle().apply {
+                         putString(LABEL_ID, item.label)
+                         putInt(IMAGE_ID, item.image)
+                         putString(DESC_ID, item.desc)
+                         putBoolean(LIKE_ID, item.like)
+                         putString(COMMENT_ID, item.comment)
+                         putInt(POSITION, position)
+                     }
+                     fragment.arguments = arguments
+                     adapter.updateItem(filmList)
+                     parentFragmentManager.beginTransaction()
+                         .replace(R.id.container, fragment)
+                         .addToBackStack(null)
+                         .commit()
                  }
-
-                 override fun onClickCheckBoxItem(item: FilmItem, position: Int) {
-                     val newLikeState = !item.like
-                     item.like = newLikeState
-                     markTouchedItem(position)
-                     filmList[position].like = newLikeState
-                     updateRVData()
+                 override fun onClickCheckBoxItem(item: FilmItem, isChecked: Boolean){
+                     markTouchedItem(item.id)
+                     filmList[item.id].like = isChecked
+                     adapter.updateItem(filmList)
                  }
-
-
              })
-
+             adapter.setData(filmList)
              recycler.adapter = adapter
-             updateRVData()
          }
     private fun markTouchedItem(position:Int){
         for (i in filmList.filter { it.isTouched }){
@@ -67,18 +71,6 @@ class MainFragment : Fragment() {
         }
         filmList[position].isTouched = true
     }
-
-
-    fun updateRVData(){
-        Log.d("OTUS", "проверяем изменения")
-        val l = adapter.getList()
-        Log.d("OTUS", "новый элемент ${l[1]}")
-        Log.d("OTUS", "старый элемент ${filmList[1]}")
-        val filmDiffResult = DiffUtil.calculateDiff(FilmDiffUtils(filmList, adapter.getList()))
-        filmDiffResult.dispatchUpdatesTo(adapter)
-        recycler.adapter = adapter
-    }
-
 
 companion object{
 

@@ -33,6 +33,7 @@ android {
     buildFeatures{
         viewBinding true
     }
+    namespace 'com.rouming.cinema_for_you'
 }
 
 dependencies {

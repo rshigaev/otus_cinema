@@ -33,18 +33,16 @@ class FavoriteFilmsActivity : AppCompatActivity() {
             Log.d("OTUS", "${filmList.filter{it.like}}")
             recycler = favRcView
             recycler.layoutManager = LinearLayoutManager(this@FavoriteFilmsActivity)
-            adapter = FilmAdapter(filmList.filter{it.like} as MutableList<FilmItem>, object:FilmAdapter.FilmItemListener{
+            /*adapter = FilmAdapter(object:FilmAdapter.FilmItemListener{
                 override fun onClickItem(item: FilmItem, position: Int) {}
-
-                override fun onClickCheckBoxItem(item: FilmItem, position: Int) {}
-                                                                                                                        },
+                override fun onClickCheckBoxItem(item: FilmItem, position: Int) {} },
                 "favorite")
 
             val callback: ItemTouchHelper.Callback = SimpleItemTouchHelperCallback(adapter)
             val touchHelper = ItemTouchHelper(callback)
             touchHelper.attachToRecyclerView(recycler)
 
-            updateRVData()
+            updateRVData()*/
         }
     }
 

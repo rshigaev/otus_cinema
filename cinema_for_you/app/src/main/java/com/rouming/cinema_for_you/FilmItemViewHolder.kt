@@ -21,18 +21,17 @@ class FilmItemViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
         label.text = item.label
         img.setImageResource(item.image)
         checkBox.isSelected = item.like
-        Log.d("OTUS", "биндим айтем   ${item}")
         button.setOnClickListener {
             listener.onClickItem(item,adapterPosition)
         }
+
         checkBox.setOnClickListener {
-            listener.onClickCheckBoxItem(item,adapterPosition)
+            listener.onClickCheckBoxItem(item, checkBox.isChecked)
         }
         if(item.isTouched){
             layout.setBackgroundResource(R.color.light_grey)
         } else {
             layout.setBackgroundResource(R.color.white)
         }
-
     }
 }

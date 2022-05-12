@@ -10,9 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 class FavoriteFilmViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private val label: TextView = itemView.findViewById(R.id.item_fav_tv)
     private val img: ImageView = itemView.findViewById(R.id.item_fav_img)
-    private val layout: ConstraintLayout = itemView.findViewById(R.id.item_fav_layout)
-
-
 
     fun bind(item:FilmItem, listener:FilmAdapter.FilmItemListener){
         label.text = item.label
@@ -20,9 +17,5 @@ class FavoriteFilmViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) 
         label.text = item.label
 
         Log.d("OTUS", "биндим айтем   ${item}")
-    }
-
-    fun markDisliked(){
-
     }
 }

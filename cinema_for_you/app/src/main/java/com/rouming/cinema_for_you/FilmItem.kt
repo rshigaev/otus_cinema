@@ -7,12 +7,13 @@ import androidx.annotation.RequiresApi
 
 
 data class FilmItem(
-    var label:String, var image: Int = -1, var desc:String = "", var comment:String = "",
+    var id:Int,var label:String, var image: Int = -1, var desc:String = "", var comment:String = "",
     var like:Boolean = false, var isTouched:Boolean = false)
     : Film(label,  image,  desc,  comment, like,  isTouched),Parcelable {
 
 
     constructor(parcel: Parcel) : this(
+        parcel.readInt(),
         parcel.readString().toString(),
         parcel.readInt(),
         parcel.readString().toString(),
@@ -27,6 +28,7 @@ data class FilmItem(
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun writeToParcel(parcel: Parcel, p1: Int) {
+        parcel.writeInt(id)
         parcel.writeString(label)
         parcel.writeInt(image)
         parcel.writeString(desc)

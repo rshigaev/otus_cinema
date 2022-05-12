@@ -9,15 +9,13 @@ class FilmDiffUtils(var oldList: MutableList<FilmItem>, var newList: MutableList
 
     override fun getNewListSize(): Int = newList.size
 
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = oldList[oldItemPosition] == newList[newItemPosition]
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition].id == newList[newItemPosition].id
+    }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldItem = oldList[oldItemPosition]
         val newItem = newList[newItemPosition]
-        if(oldItem != newItem){
-            Log.d("OTUS","oldItem = $oldItem")
-            Log.d("OTUS","newItem = $newItem")
-        }
-        return oldItem.isTouched == newItem.isTouched && oldItem.like == newItem.like
+        return oldItem.like == newItem.like && oldItem.isTouched == newItem.isTouched
     }
 }
