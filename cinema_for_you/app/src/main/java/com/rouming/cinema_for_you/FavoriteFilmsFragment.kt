@@ -31,6 +31,8 @@ class FavoriteFilmsFragment : Fragment() {
         init()
     }
 
+
+
     private fun init(){
 
         filmList = arguments?.getParcelableArrayList(LST) ?: error("no filmList")
@@ -38,7 +40,7 @@ class FavoriteFilmsFragment : Fragment() {
         recycler.layoutManager = LinearLayoutManager(requireContext())
         adapter = FilmAdapter(object:FilmAdapter.FilmItemListener{
             override fun onClickItem(item: FilmItem, position: Int) {}
-            override fun onClickCheckBoxItem(item: FilmItem, isChecked: Boolean) {} },
+            override fun onClickCheckBoxItem(view: View,item: FilmItem, isChecked: Boolean) {} },
                 "favorite")
 
         var myTouchHelper = ItemTouchHelper(
@@ -53,7 +55,7 @@ class FavoriteFilmsFragment : Fragment() {
                         return false // true if moved, false otherwise
                     }
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        val currentPosition = viewHolder.getAdapterPosition()
+                        val currentPosition = viewHolder.adapterPosition
                         filmList.filter{it.like}[currentPosition].like = false
                         adapter.updateItem(filmList.filter{it.like} as ArrayList<FilmItem>)
                     }

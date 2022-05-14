@@ -8,6 +8,7 @@ import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.FragmentResultListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -97,6 +98,12 @@ class MainActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.container, fragment)
             .commit()
+        supportFragmentManager.setFragmentResultListener(DETAILED_RESULT, this){request_key, result ->
+            if(!result.isEmpty){
+                filmList[result.getInt(POSITION)].like = result.getBoolean(LIKE_ID)
+                filmList[result.getInt(POSITION)].comment = result.getString(COMMENT_ID).toString()
+            }
+        }
         bottonNav.setOnItemSelectedListener {
             when (it.itemId){
                 R.id.mainmenu_films ->
@@ -120,6 +127,7 @@ class MainActivity : AppCompatActivity() {
                     supportFragmentManager
                         .beginTransaction()
                         .replace(R.id.container, fragment)
+                        .addToBackStack(null)
                         .commit()
                 }
                 else -> {
@@ -131,6 +139,7 @@ class MainActivity : AppCompatActivity() {
                     supportFragmentManager
                         .beginTransaction()
                         .replace(R.id.container, fragment)
+                        .addToBackStack(null)
                         .commit()
                 }
             }
@@ -158,7 +167,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        CloseAppDialog().show(supportFragmentManager, "dialog")
+        if(supportFragmentManager.backStackEntryCount>0){
+            supportFragmentManager.popBackStack()
+        }
+        else CloseAppDialog().show(supportFragmentManager, "dialog")
     }
 
     private fun makeFilmList(){
@@ -174,5 +186,9 @@ class MainActivity : AppCompatActivity() {
 
     companion object{
         const val LST= "list"
+        const val DETAILED_RESULT= "detailed_result"
+        const val LIKE_ID= "like"
+        const val COMMENT_ID= "comment"
+        const val POSITION= "position"
     }
 }

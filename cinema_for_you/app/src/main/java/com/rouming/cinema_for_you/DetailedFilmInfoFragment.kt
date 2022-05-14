@@ -12,14 +12,12 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class DetailedFilmInfoFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var label: String = ""
     private var image:Int = -1
     private var description:String? = null
     private var like:Boolean = false
     private var comment:String? = null
     private var position:Int = -1
-    lateinit var tvLabel:TextView
     lateinit var imgView:ImageView
     lateinit var tvDesc:TextView
     lateinit var fabLike:FloatingActionButton
@@ -27,7 +25,6 @@ class DetailedFilmInfoFragment : Fragment() {
     lateinit var toolbar: Toolbar
     lateinit var btnSave: Button
     lateinit var btnShare: Button
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +57,7 @@ class DetailedFilmInfoFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         //inflater.inflate()
+        //TODO
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -69,7 +67,6 @@ class DetailedFilmInfoFragment : Fragment() {
     }
 
     private fun init(){
-        //tvLabel.text = label
         toolbar.title = label
         imgView.setImageResource(image)
         tvDesc.text = description
@@ -80,7 +77,12 @@ class DetailedFilmInfoFragment : Fragment() {
             if(like) fabLike.setImageResource(R.drawable.ic_cb_like_checked) else fabLike.setImageResource(R.drawable.ic_cb_like)
         }
         btnSave.setOnClickListener {
-            //TODO
+            val result = Bundle()
+            result.putBoolean(MainFragment.LIKE_ID, like)
+            result.putString(MainFragment.COMMENT_ID, tvComment.text.toString())
+            result.putInt(MainFragment.POSITION, position)
+            parentFragmentManager.setFragmentResult(DETAILED_RESULT, result)
+            parentFragmentManager.popBackStack()
         }
         btnShare.setOnClickListener {
             val shareIntent: Intent = Intent().apply {
@@ -89,10 +91,7 @@ class DetailedFilmInfoFragment : Fragment() {
             type = "text/plain"
         }
             startActivity(Intent.createChooser(shareIntent, null)) }
-
     }
-
-
 
     companion object{
 
@@ -102,6 +101,7 @@ class DetailedFilmInfoFragment : Fragment() {
         const val LIKE_ID= "like"
         const val COMMENT_ID= "comment"
         const val POSITION= "position"
+        const val DETAILED_RESULT= "detailed_result"
 
     }
 }
