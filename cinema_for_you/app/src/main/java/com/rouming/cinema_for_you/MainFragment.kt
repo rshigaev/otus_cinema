@@ -13,12 +13,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 
 class MainFragment : Fragment() {
 
     lateinit var recycler:RecyclerView
     lateinit var adapter:FilmAdapter
     lateinit var filmList:ArrayList<FilmItem>
+    lateinit var fragment:DetailedFilmInfoFragment
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +42,7 @@ class MainFragment : Fragment() {
              adapter = FilmAdapter( object:FilmAdapter.FilmItemListener{
                  override fun onClickItem(item: FilmItem, position: Int) {
                      markTouchedItem(position)
-                     val fragment = DetailedFilmInfoFragment()
+                     fragment = DetailedFilmInfoFragment()
                      val arguments = Bundle().apply {
                          putString(LABEL_ID, item.label)
                          putInt(IMAGE_ID, item.image)
@@ -56,10 +58,14 @@ class MainFragment : Fragment() {
                          .addToBackStack(null)
                          .commit()
                  }
-                 override fun onClickCheckBoxItem(item: FilmItem, isChecked: Boolean){
+                 override fun onClickCheckBoxItem(view:View, item: FilmItem, isChecked: Boolean){
                      markTouchedItem(item.id)
                      filmList[item.id].like = isChecked
                      adapter.updateItem(filmList)
+                     if(isChecked) Snackbar.make(view,R.string.add_to_favorite,Snackbar.LENGTH_LONG)
+                         .setAnchorView(view.findViewById(R.id.item_tvLabel))
+                         .setAnimationMode(Snackbar.ANIMATION_MODE_FADE)
+                         .show()
                  }
              })
              adapter.setData(filmList)

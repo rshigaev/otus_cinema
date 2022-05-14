@@ -26,7 +26,7 @@ class FilmItemViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
         }
 
         checkBox.setOnClickListener {
-            listener.onClickCheckBoxItem(item, checkBox.isChecked)
+            listener.onClickCheckBoxItem(itemView, item, checkBox.isChecked)
         }
         if(item.isTouched){
             layout.setBackgroundResource(R.color.light_grey)

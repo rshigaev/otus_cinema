@@ -23,7 +23,7 @@ data class FilmItem(
     )
 
     override fun describeContents(): Int {
-        TODO("Not yet implemented")
+        TODO()
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)

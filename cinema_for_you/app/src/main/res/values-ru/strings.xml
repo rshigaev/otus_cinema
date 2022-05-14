@@ -8,4 +8,5 @@
     <string name="closeDialog_title">Закрыть приложение</string>
     <string name="closeDialog_qiestion">Вы уверены?</string>
     <string name="fragment_films">Фильмы</string>
+    <string name="add_to_favorite">Фильм добавлен в избранное</string>
 </resources>

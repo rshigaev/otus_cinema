@@ -2,6 +2,7 @@ package com.rouming.cinema_for_you
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -58,7 +59,7 @@ class FilmAdapter(
     }
 
     interface FilmItemListener{
-        fun onClickItem(item:FilmItem,  position: Int)
-        fun onClickCheckBoxItem(item:FilmItem,  isChecked:Boolean)
+        fun onClickItem( item:FilmItem, position: Int)
+        fun onClickCheckBoxItem(view: View,item:FilmItem,  isChecked:Boolean)
     }
 }
