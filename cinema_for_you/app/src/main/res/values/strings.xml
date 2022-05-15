@@ -11,4 +11,7 @@
     <string name="fragment_films">Films</string>
 
     <string name="add_to_favorite">Film added to favorile</string>
+    <string name="remove_from_favorite">Film removed from favotite</string>
+    <string name="cancel_action">Action canceled</string>
+    <string name="undo">Undo</string>
 </resources>

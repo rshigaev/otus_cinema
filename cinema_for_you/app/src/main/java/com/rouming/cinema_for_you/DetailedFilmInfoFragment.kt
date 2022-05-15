@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -54,19 +53,19 @@ class DetailedFilmInfoFragment : Fragment() {
         init()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        //inflater.inflate()
-        //TODO
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_detailed_film_info, container, false)
-
     }
 
     private fun init(){
+
+        toolbar.setNavigationIcon(R.drawable.ic_back_button)
+        toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         toolbar.title = label
         imgView.setImageResource(image)
         tvDesc.text = description

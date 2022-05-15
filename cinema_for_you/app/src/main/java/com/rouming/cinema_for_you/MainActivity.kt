@@ -1,19 +1,10 @@
 package com.rouming.cinema_for_you
 
-import android.content.Intent
-import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.FragmentResultListener
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rouming.cinema_for_you.databinding.ActivityMainBinding
 import java.util.ArrayList
 
@@ -56,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     var filmLikes = arrayListOf<Boolean>(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false)
     var filmComments = arrayListOf<String>("","","","","","","","","","","","","","","","","","","","")
 
-    var filmList = arrayListOf<FilmItem>()
+    private var filmList = arrayListOf<FilmItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -145,21 +136,10 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-        bottonNav.setOnItemReselectedListener { true
+        bottonNav.setOnItemReselectedListener {
+            true
         }
     }
-
-    /*private fun startDetailedActivity(num:Int){
-        val intent = Intent(this,DetailFilmInfoActivity::class.java)
-        val reqCode = num
-        intent.putExtra(LABEL_ID,filmList[num].label)
-        intent.putExtra(IMAGE_ID,filmImages[num])
-        intent.putExtra(DESC_ID,filmList[num].desc)
-        intent.putExtra(LIKE_ID,filmList[num].like)
-        intent.putExtra(COMMENT_ID,filmList[num].comment)
-        intent.putExtra(POSITION,num)
-        startActivityForResult(intent, reqCode)
-    }*/
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

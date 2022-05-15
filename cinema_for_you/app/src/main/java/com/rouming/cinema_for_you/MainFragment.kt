@@ -2,22 +2,20 @@ package com.rouming.cinema_for_you
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 
+
 class MainFragment : Fragment() {
 
-    lateinit var recycler:RecyclerView
+    private lateinit var recycler:RecyclerView
     lateinit var adapter:FilmAdapter
     lateinit var filmList:ArrayList<FilmItem>
     lateinit var fragment:DetailedFilmInfoFragment
@@ -37,7 +35,7 @@ class MainFragment : Fragment() {
     private fun init(){
         Log.d("OTUS", "init")
              filmList = arguments?.getParcelableArrayList(LST) ?: error("no filmList")
-             recycler = view?.findViewById<RecyclerView>(R.id.rcView)!!
+             recycler = view?.findViewById(R.id.rcView)!!
              recycler.layoutManager = if(resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) LinearLayoutManager(requireContext()) else GridLayoutManager(requireContext(),2)
              adapter = FilmAdapter( object:FilmAdapter.FilmItemListener{
                  override fun onClickItem(item: FilmItem, position: Int) {
@@ -53,19 +51,33 @@ class MainFragment : Fragment() {
                      }
                      fragment.arguments = arguments
                      adapter.updateItem(filmList)
+
                      parentFragmentManager.beginTransaction()
                          .replace(R.id.container, fragment)
                          .addToBackStack(null)
                          .commit()
                  }
-                 override fun onClickCheckBoxItem(view:View, item: FilmItem, isChecked: Boolean){
+                 override fun onClickCheckBoxItem(itemView:View, item: FilmItem, isChecked: Boolean){
+                     var checked = isChecked
+                     Log.d("OTUS", "получили чект = $checked")
                      markTouchedItem(item.id)
-                     filmList[item.id].like = isChecked
-                     adapter.updateItem(filmList)
-                     if(isChecked) Snackbar.make(view,R.string.add_to_favorite,Snackbar.LENGTH_LONG)
-                         .setAnchorView(view.findViewById(R.id.item_tvLabel))
+                     val str = if(checked) R.string.add_to_favorite else R.string.remove_from_favorite
+                     Snackbar.make(itemView,str,Snackbar.LENGTH_LONG)
+                         .setAnchorView(R.id.item_tvLabel)
                          .setAnimationMode(Snackbar.ANIMATION_MODE_FADE)
+                         .setAction(R.string.undo) { v ->
+                             Snackbar
+                                 .make(v, R.string.cancel_action, Snackbar.LENGTH_SHORT)
+                                 .setAnchorView(R.id.item_tvLabel)
+                                 .setAnimationMode(Snackbar.ANIMATION_MODE_FADE)
+                                 .show()
+                             checked = !checked
+                            filmList[item.id].like = checked
+                             adapter.updateItem(filmList)
+                         }
                          .show()
+                     filmList[item.id].like = checked
+                     adapter.updateItem(filmList)
                  }
              })
              adapter.setData(filmList)
@@ -78,16 +90,15 @@ class MainFragment : Fragment() {
         filmList[position].isTouched = true
     }
 
-companion object{
+    companion object {
 
-    const val LABEL_ID= "label"
-    const val IMAGE_ID= "image"
-    const val DESC_ID= "description"
-    const val LIKE_ID= "like"
-    const val COMMENT_ID= "comment"
-    const val POSITION= "position"
-    const val LST= "list"
+        const val LABEL_ID = "label"
+        const val IMAGE_ID = "image"
+        const val DESC_ID = "description"
+        const val LIKE_ID = "like"
+        const val COMMENT_ID = "comment"
+        const val POSITION = "position"
+        const val LST = "list"
 
-}
-
+    }
 }
