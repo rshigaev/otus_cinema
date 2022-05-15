@@ -9,4 +9,7 @@
     <string name="closeDialog_qiestion">Вы уверены?</string>
     <string name="fragment_films">Фильмы</string>
     <string name="add_to_favorite">Фильм добавлен в избранное</string>
+    <string name="remove_from_favorite">Фильм удалён из избранного</string>
+    <string name="cancel_action">Действие отменено</string>
+    <string name="undo">Отменить</string>
 </resources>

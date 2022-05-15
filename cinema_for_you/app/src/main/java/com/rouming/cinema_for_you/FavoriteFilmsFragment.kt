@@ -6,12 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.rouming.cinema_for_you.databinding.ActivityFavoriteFilmsBinding
 
 class FavoriteFilmsFragment : Fragment() {
 
@@ -43,7 +40,7 @@ class FavoriteFilmsFragment : Fragment() {
             override fun onClickCheckBoxItem(view: View,item: FilmItem, isChecked: Boolean) {} },
                 "favorite")
 
-        var myTouchHelper = ItemTouchHelper(
+        val myTouchHelper = ItemTouchHelper(
                 object : ItemTouchHelper.SimpleCallback(
                         ItemTouchHelper.UP or ItemTouchHelper.DOWN,
                         ItemTouchHelper.LEFT

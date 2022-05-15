@@ -20,7 +20,7 @@ class FilmItemViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
     fun bind(item:FilmItem, listener:FilmAdapter.FilmItemListener){
         label.text = item.label
         img.setImageResource(item.image)
-        checkBox.isSelected = item.like
+        checkBox.isChecked = item.like
         button.setOnClickListener {
             listener.onClickItem(item,adapterPosition)
         }
