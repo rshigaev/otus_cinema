@@ -12,4 +12,6 @@
     <string name="remove_from_favorite">Фильм удалён из избранного</string>
     <string name="cancel_action">Действие отменено</string>
     <string name="undo">Отменить</string>
+    <string name="retry">Повторить</string>
+    <string name="error_download">Возникла ошибка сети</string>
 </resources>
