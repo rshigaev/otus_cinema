@@ -14,4 +14,6 @@
     <string name="remove_from_favorite">Film removed from favotite</string>
     <string name="cancel_action">Action canceled</string>
     <string name="undo">Undo</string>
+    <string name="retry">Retry</string>
+    <string name="error_download">Internet error occured</string>
 </resources>

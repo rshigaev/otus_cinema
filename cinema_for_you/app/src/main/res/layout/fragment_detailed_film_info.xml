@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,7 +11,8 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        >
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
@@ -35,6 +37,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:layout_width="match_parent"
                 app:layout_collapseMode="pin"
+                app:title="@{film.nameRu!=null?film.nameRu:film.nameEn}"
                 >
 
             </androidx.appcompat.widget.Toolbar>
@@ -47,6 +50,7 @@
         android:layout_height="wrap_content"
         app:layout_anchor="@id/nestedScroll"
         app:layout_anchorGravity="end|top"
+        android:src="@{film.like ? @drawable/ic_cb_like_checked : @drawable/ic_cb_like}"
 
         tools:ignore="SpeakableTextPresentCheck" />
     <androidx.core.widget.NestedScrollView
@@ -71,7 +75,8 @@
                     android:isScrollContainer="true"
                     android:textSize="24sp"
                     tools:ignore="TouchTargetSizeCheck"
-                    tools:text="TextView" />
+                    tools:text="TextView"
+                    android:text="@{film.description==null?film.nameRu!=null?film.nameRu:film.nameEn:film.description}"/>
 
                 <Button
                     android:id="@+id/btn_share"
@@ -89,6 +94,7 @@
                     android:inputType="textPersonName"
                     android:textSize="24sp"
                     tools:text="comments"
+                    android:text="@{String.valueOf(film.comment)}"
                     />
 
                 <Button
@@ -100,3 +106,9 @@
         </ScrollView>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <data>
+        <variable
+            name="film"
+            type="com.rouming.cinema_for_you.Film" />
+    </data>
+</layout>

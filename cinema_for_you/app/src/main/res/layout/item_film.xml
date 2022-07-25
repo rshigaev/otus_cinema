@@ -4,39 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/item_layout">
+    android:id="@+id/item_layout"
+    android:layout_margin="2dp"
+    >
 
     <ImageView
         android:id="@+id/item_img"
         tools:src="@tools:sample/backgrounds/scenic"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="4dp"/>
 
     <TextView
-            android:id="@+id/item_tvLabel"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/item_btnDetails"
-            app:layout_constraintEnd_toStartOf="@+id/item_btnDetails"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_img"
-            tools:text="@tools:sample/lorem"
-            />
+        android:id="@+id/item_tvLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:inputType="textMultiLine"
+        android:maxLength="180"
+        android:maxLines="3"
+        android:textColor="@color/design_default_color_secondary_variant"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/item_btnDetails"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_img"
+        tools:text="@tools:sample/lorem/random" />
 
     <Button
-            android:id="@+id/item_btnDetails"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_details"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_img" />
+        android:id="@+id/item_btnDetails"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_details"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_img" />
 
     <CheckBox
         android:id="@+id/item_cbLike"
