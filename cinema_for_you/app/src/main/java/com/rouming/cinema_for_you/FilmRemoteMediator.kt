@@ -25,7 +25,6 @@ class FilmRemoteMediator(
     override suspend fun load(
         loadType: LoadType, state: PagingState<Int, Film>
     ): MediatorResult {
-        Log.d(TAG, "load")
         val pageKeyData = getKeyPageData(loadType, state)
 
         val page = when (pageKeyData) {
@@ -36,17 +35,16 @@ class FilmRemoteMediator(
                 pageKeyData as Int
             }
         }
-        Log.d(TAG, "page = $page")
+
 
         try {
-            Log.d(TAG, "пускаем ретрофит")
+
 
                     var response = networkService.getFilms(page = page, type ="FILM")
-                    Log.d(TAG, "получили респонс = $response")
+
                     val isEndOfList = response.totalPages == page
                     if (!isEndOfList){
                         database.withTransaction {
-                            Log.d(TAG, "записываем в бд респонс")
                             filmDao.insertFilms(response.makeFilmsListFromListResponse())
                         }
                     }
@@ -68,22 +66,17 @@ class FilmRemoteMediator(
     private fun getKeyPageData(loadType: LoadType, state: PagingState<Int, Film>): Any? {
         return when (loadType) {
             LoadType.REFRESH -> {
-                Log.d(TAG, "REFRESH")
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                Log.d(TAG, "remoteKeys = $remoteKeys")
 //                remoteKeys?: STARTING_PAGE_INDEX
                 val result = if(remoteKeys!=null){MediatorResult.Success(endOfPaginationReached = true)}
                 else STARTING_PAGE_INDEX
-                Log.d(TAG, "resurl = $result")
                 result
             }
             LoadType.APPEND -> {
-                Log.d(TAG, "APPEND")
                 val lastKey = getLastRemoteKey(state)
                 return lastKey ?: MediatorResult.Success(endOfPaginationReached = false)
             }
             LoadType.PREPEND -> {
-                Log.d(TAG, "PREPEND")
 //                val prevKey = getFirstRemoteKey(state)
 //                prevKey ?: return MediatorResult.Success(
 //                    endOfPaginationReached = false
@@ -97,9 +90,7 @@ class FilmRemoteMediator(
 
 
 fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Film>): Int? {
-    Log.d(TAG, "state.anchorPosition = ${state.anchorPosition}")
-     val nextKey = if(state.anchorPosition == null) null else state.closestItemToPosition(state.anchorPosition?:0)!!.id/10
-    Log.d(TAG, "проверяем че возвращаем когда нет данных в бд: ${if(state.anchorPosition == null) null else state.closestItemToPosition(state.anchorPosition?:0)!!.id/10}")
+    val nextKey = if(state.anchorPosition == null) null else state.closestItemToPosition(state.anchorPosition?:0)!!.id/10
     return nextKey
 }
 
@@ -108,7 +99,6 @@ fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Film>): Int? {
             .lastOrNull { it.data.isNotEmpty() }
             ?.data?.lastOrNull()
             ?.let { film ->
-                Log.d(TAG, "getLastRemoteKey, последняя загруженная страница = ${film.id/20}")
                 film.id/20}
     }
 
@@ -124,5 +114,4 @@ fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Film>): Int? {
     companion object{
         const val STARTING_PAGE_INDEX = 1
     }
-
 }

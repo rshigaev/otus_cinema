@@ -65,7 +65,7 @@ class FilmRepository {
     }
 
     fun findAllFilmsByPage():PagingSource<Int,Film>{
-        Log.d(MainActivity.TAG,"findAllFilmsByPage в FilmRepository")
+       // Log.d(MainActivity.TAG,"findAllFilmsByPage в FilmRepository")
         return db.FilmDao().findAllFilmsByPage()
     }
 

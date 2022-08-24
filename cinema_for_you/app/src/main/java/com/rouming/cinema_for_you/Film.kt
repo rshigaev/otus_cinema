@@ -3,40 +3,38 @@ package com.rouming.cinema_for_you
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.*
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import java.lang.reflect.Type
 
 @Entity(tableName = "film")
     data class Film(
 
     @ColumnInfo(name = "description")
-        val description: String? = "null",
+    var description: String? = "null",
 
-        @ColumnInfo(name = "nameRu")
-        val nameRu: String? = "null",
+    @ColumnInfo(name = "nameRu")
+    var nameRu: String? = "null",
 
-        @ColumnInfo(name = "nameEn")
-        val nameEn: String? = "null",
+    @ColumnInfo(name = "nameEn")
+    var nameEn: String? = "null",
 
-        @ColumnInfo(name = "coverUrl")
-        val coverUrl: String? = "null",
+    @ColumnInfo(name = "coverUrl")
+    var coverUrl: String? = "null",
 
-        @ColumnInfo(name = "slogan")
-        val slogan: String? = null,
+    @ColumnInfo(name = "slogan")
+    var slogan: String? = null,
 
-        @ColumnInfo(name = "kinopoiskId")
-        val kinopoiskId: Int = -1,
+    @ColumnInfo(name = "kinopoiskId")
+    var kinopoiskId: Int = -1,
 
-        @ColumnInfo(name = "like_flg")
-        var like: Boolean = false,
+    @ColumnInfo(name = "like_flg")
+    var like: Boolean = false,
 
-        @ColumnInfo(name = "is_touched")
-        val isTouched: Boolean = false,
+    @ColumnInfo(name = "is_touched")
+    var isTouched: Boolean = false,
 
-        @ColumnInfo(name = "comment")
-        val comment: String = ""
+    @ColumnInfo(name = "comment")
+    var comment: String = ""
 
 ) {
     @PrimaryKey(autoGenerate = true)
@@ -62,138 +60,138 @@ data class PagedResponse(
 data class FilmResponse(
 
     @SerializedName("ratingImdb")
-    val ratingImdb: Double? = null,
+    var ratingImdb: Double? = null,
 
     @SerializedName("year")
-    val year: Int? = null,
+    var year: Int? = null,
 
     @SerializedName("imdbId")
-    val imdbId: String? = null,
+    var imdbId: String? = null,
 
     @SerializedName("filmLength")
-    val filmLength: Int? = null,
+    var filmLength: Int? = null,
 
     @SerializedName("description")
-    val description: String = "null",
+    var description: String = "null",
 
     @SerializedName("reviewsCount")
-    val reviewsCount: Int? = null,
+    var reviewsCount: Int? = null,
 
     @SerializedName("ratingGoodReview")
-    val ratingGoodReview: Double? = null,
+    var ratingGoodReview: Double? = null,
 
     @SerializedName("type")
-    val type: String? = null,
+    var type: String? = null,
 
     @SerializedName("endYear")
-    val endYear: Int? = null,
+    var endYear: Int? = null,
 
     @SerializedName("ratingRfCriticsVoteCount")
-    val ratingRfCriticsVoteCount: Int? = null,
+    var ratingRfCriticsVoteCount: Int? = null,
 
     @SerializedName("hasImax")
-    val hasImax: Boolean? = null,
+    var hasImax: Boolean? = null,
 
     @SerializedName("nameRu")
-    val nameRu: String = "null",
+    var nameRu: String = "null",
 
     @SerializedName("lastSync")
-    val lastSync: String? = null,
+    var lastSync: String? = null,
 
     @SerializedName("countries")
     @Expose
-    val countries: List<Countries>? = null,
+    var countries: List<Countries>? = null,
 
     @SerializedName("genres")
     @Expose
-    val genres: List<Genres>? = null,
+    var genres: List<Genres>? = null,
 
     @SerializedName("posterUrl")
-    val posterUrl: String? = null,
+    var posterUrl: String? = null,
 
     @SerializedName("productionStatus")
-    val productionStatus: String? = null,
+    var productionStatus: String? = null,
 
     @SerializedName("isTicketsAvailable")
-    val isTicketsAvailable: Boolean? = null,
+    var isTicketsAvailable: Boolean? = null,
 
     @SerializedName("ratingMpaa")
-    val ratingMpaa: String? = null,
+    var ratingMpaa: String? = null,
 
     @SerializedName("ratingAgeLimits")
-    val ratingAgeLimits: String? = null,
+    var ratingAgeLimits: String? = null,
 
     @SerializedName("editorAnnotation")
-    val editorAnnotation: String? = null,
+    var editorAnnotation: String? = null,
 
     @SerializedName("startYear")
-    val startYear: Int? = null,
+    var startYear: Int? = null,
 
     @SerializedName("ratingKinopoiskVoteCount")
-    val ratingKinopoiskVoteCount: Int? = null,
+    var ratingKinopoiskVoteCount: Int? = null,
 
     @SerializedName("nameEn")
-    val nameEn: String? = "null",
+    var nameEn: String? = "null",
 
     @SerializedName("shortDescription")
-    val shortDescription: String = "null",
+    var shortDescription: String = "null",
 
     @SerializedName("completed")
-    val completed: Boolean? = null,
+    var completed: Boolean? = null,
 
     @SerializedName("ratingAwaitCount")
-    val ratingAwaitCount: Int? = null,
+    var ratingAwaitCount: Int? = null,
 
     @SerializedName("has3D")
-    val has3D: Boolean? = null,
+    var has3D: Boolean? = null,
 
     @SerializedName("logoUrl")
-    val logoUrl: String? = null,
+    var logoUrl: String? = null,
 
     @SerializedName("ratingKinopoisk")
-    val ratingKinopoisk: Double? = null,
+    var ratingKinopoisk: Double? = null,
 
     @SerializedName("coverUrl")
-    val coverUrl: String = "null",
+    var coverUrl: String = "null",
 
     @SerializedName("nameOriginal")
-    val nameOriginal: String? = null,
+    var nameOriginal: String? = null,
 
     @SerializedName("ratingGoodReviewVoteCount")
-    val ratingGoodReviewVoteCount: Int? = null,
+    var ratingGoodReviewVoteCount: Int? = null,
 
     @SerializedName("serial")
-    val serial: Boolean? = null,
+    var serial: Boolean? = null,
 
     @SerializedName("webUrl")
-    val webUrl: String? = null,
+    var webUrl: String? = null,
 
     @SerializedName("posterUrlPreview")
-    val posterUrlPreview: String? = null,
+    var posterUrlPreview: String? = null,
 
     @SerializedName("shortFilm")
-    val shortFilm: Boolean? = null,
+    var shortFilm: Boolean? = null,
 
     @SerializedName("ratingRfCritics")
-    val ratingRfCritics: Double? = null,
+    var ratingRfCritics: Double? = null,
 
     @SerializedName("ratingImdbVoteCount")
-    val ratingImdbVoteCount: Int? = null,
+    var ratingImdbVoteCount: Int? = null,
 
     @SerializedName("ratingAwait")
-    val ratingAwait: Double? = null,
+    var ratingAwait: Double? = null,
 
     @SerializedName("ratingFilmCritics")
-    val ratingFilmCritics: Double? = null,
+    var ratingFilmCritics: Double? = null,
 
     @SerializedName("slogan")
-    val slogan: String? = null,
+    var slogan: String? = null,
 
     @SerializedName("kinopoiskId")
-    val kinopoiskId: Int = -1,
+    var kinopoiskId: Int = -1,
 
     @SerializedName("ratingFilmCriticsVoteCount")
-    val ratingFilmCriticsVoteCount: Int? = null
+    var ratingFilmCriticsVoteCount: Int? = null
 ) {
     fun makeFilm() = Film(if(description=="null") null else description, nameRu, nameEn,
         if(coverUrl != "null") coverUrl else if (posterUrl!= "null") posterUrl else if (posterUrlPreview!= "null") posterUrlPreview else null,
@@ -203,12 +201,12 @@ data class FilmResponse(
 
 
 data class Genres (
-    val genres: List<String>
+    var genres: List<String>
 )
 
 
 data class Countries (
-    val countries: List<String>
+    var countries: List<String>
 )
 
 

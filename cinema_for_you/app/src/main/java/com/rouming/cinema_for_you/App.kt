@@ -1,6 +1,9 @@
 package com.rouming.cinema_for_you
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
 import android.util.Log
 import com.rouming.cinema_for_you.MainActivity.Companion.TAG
 import com.rouming.cinema_for_you.roomDB.AppDB
@@ -23,6 +26,23 @@ class App: Application() {
         db = AppDB.getDatabase(this)
 
         initRetrofit()
+        //initNotificationChannel()
+    }
+
+    private fun initNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            // Create the NotificationChannel
+            val name = "Cinema_for_you"
+            val descriptionText = "Notification channel for alarm pushes about films"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val mChannel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance)
+            mChannel.description = descriptionText
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+
+            notificationManager.createNotificationChannel(mChannel)
+        }
     }
 
     private fun initRetrofit() {
@@ -61,6 +81,7 @@ class App: Application() {
 
         const val GET_FILM_URL = "https://kinopoiskapiunofficial.tech/api/v2.2/"
         const val TOKEN = "175acacb-1f68-4261-9b11-91a3acc2ab1a"
+        const val NOTIFICATION_CHANNEL_ID = "5436633"
 
         lateinit var instance: App
             private set
