@@ -35,7 +35,6 @@ interface FilmDao {
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun updateFilms(vararg Films:Film?)
 
-
     @Query("UPDATE film set comment = :comment where id = :id")
     fun updateFilm(id:Int, comment:String)
 

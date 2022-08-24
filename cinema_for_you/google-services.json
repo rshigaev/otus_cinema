@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "181840263133",
+    "project_id": "cinema-for-you",
+    "storage_bucket": "cinema-for-you.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:181840263133:android:05e323fcd710ca9b286834",
+        "android_client_info": {
+          "package_name": "com.rouming.cinema_for_you"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "181840263133-j1rjqm1ftbk8jn2fqfec0328mde2tpak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEMRqUyNfC3GVQ_B3q2wtpsE_Uz8QCWfI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "181840263133-j1rjqm1ftbk8jn2fqfec0328mde2tpak.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -26,7 +26,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:inputType="textMultiLine"
         android:maxLength="180"
         android:maxLines="3"
         android:textColor="@color/design_default_color_secondary_variant"
@@ -50,12 +49,24 @@
         android:id="@+id/item_cbLike"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/like_checkbox"
         android:button="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/fab_add_notification"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fab_add_notification" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_add_notification"
+        app:backgroundTint="@null"
+        android:tintMode="add"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        app:rippleColor="@null" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

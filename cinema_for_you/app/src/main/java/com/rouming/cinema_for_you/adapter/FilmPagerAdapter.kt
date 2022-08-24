@@ -28,6 +28,7 @@ class FilmPagerAdapter(private val listener: FilmItemListener) : PagingDataAdapt
     interface FilmItemListener{
         fun onClickItem(item: Film, position: Int)
         fun onClickCheckBoxItem(view: View, item: Film, isChecked:Boolean)
+        fun onClickReminder(view: View, item: Film)
     }
 
     object FilmComparator : DiffUtil.ItemCallback<Film>() {

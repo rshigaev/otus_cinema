@@ -20,21 +20,21 @@ import com.rouming.cinema_for_you.databinding.FragmentMainBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class MainFragment : Fragment() {
+
+class MainFragment(val detailedId:Int?) : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
     lateinit var fragment: DetailedFilmInfoFragment
     private lateinit var filmViewModel : FilmViewModel
     private lateinit var  adapter: FilmPagerAdapter
     private lateinit var  myView : View
-
+    private var detailedIsOpened = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMainBinding.inflate(layoutInflater)
-        Log.d(TAG, "mainfragment create view")
         myView = binding.root
         return binding.root
     }
@@ -44,11 +44,19 @@ class MainFragment : Fragment() {
         init()
     }
 
+    private fun openDetailedById(id:Int){
+
+        markTouchedItem(id)
+        fragment = DetailedFilmInfoFragment()
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
 
     private fun init() {
-
-        Log.d(TAG, "init mainfragment")
-             binding.rcView.layoutManager = if(resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) LinearLayoutManager(requireContext()) else GridLayoutManager(requireContext(),2)
+        binding.rcView.layoutManager = if(resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) LinearLayoutManager(requireContext()) else GridLayoutManager(requireContext(),2)
              adapter = FilmPagerAdapter( object: FilmPagerAdapter.FilmItemListener {
                  override fun onClickItem(item: Film, position: Int) {
                      markTouchedItem(item.id)
@@ -82,6 +90,10 @@ class MainFragment : Fragment() {
                          if(checked) "1" else "0",
                          item.id)
                  }
+
+                 override fun onClickReminder(view: View, item: Film) {
+                    AddNotificationDialog(R.layout.date_time_picker,item).show(parentFragmentManager, "notif_dialog")
+                 }
              })
 
         binding.rcView.adapter = adapter
@@ -104,7 +116,7 @@ class MainFragment : Fragment() {
 
             binding.progressDialog.isVisible = loadingState
 
-            Log.d(TAG, "errorState = $errorState")
+            //Log.d(TAG, "errorState = $errorState")
             if(errorState != null){
                 Snackbar.make(myView,R.string.error_download,Snackbar.LENGTH_INDEFINITE)
                     .setAnchorView(R.id.bottomNav)
@@ -114,8 +126,6 @@ class MainFragment : Fragment() {
                     }
                     .show()
             }
-
-
         }
 
         filmViewModel = ViewModelProvider(this, FilmViewModelFactory())[FilmViewModel::class.java]
@@ -123,11 +133,14 @@ class MainFragment : Fragment() {
         lifecycleScope.launch {
             filmViewModel.allFilms.collectLatest {
                 adapter.submitData(it) }
+        }
 
+        val openId = detailedId
+        if(openId != null && !detailedIsOpened) {
+            detailedIsOpened = true
+            openDetailedById(openId)
         }
     }
-
-
 
     private fun markTouchedItem(id:Int){
         filmViewModel.markTouched(id)
